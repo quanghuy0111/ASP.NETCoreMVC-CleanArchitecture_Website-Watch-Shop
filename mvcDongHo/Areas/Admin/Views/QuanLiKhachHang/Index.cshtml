@@ -1,0 +1,137 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model mvcDongHo.Areas.Admin.ViewModels.KhachHangView;
+<!--để nó hiểu những biến trong viewmodel-->
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; //dùng lại layout ở share
+
+}
+<br>
+<div>
+    <!-- Thanh tìm kiếm -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form asp-controller="QuanLiKhachHang" asp-action="Index">
+                    <div class="input-group">
+                        <select asp-for="Type" id="Type">
+                            <option value="IDKhachHang">Mã khách hàng</option>
+                            @if (@Model.Type == "TenKhachHang")
+                            {
+                                <option value="TenKhachHang" selected>Tên khách hàng</option>
+                            }
+                            else
+                            {
+                                <option value="TenKhachHang">Tên khách hàng</option>
+                            }
+                            @if (@Model.Type == "SoDienThoai")
+                            {
+                                <option value="SoDienThoai" selected>Số điện thoại</option>
+                            }
+                            else
+                            {
+                                <option value="SoDienThoai">Số điện thoại</option>
+                            }
+                            }
+                        </select>
+                        <input type="search" class="form-control form-control-lg" placeholder="Tìm kiếm" asp-for="searchString">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- end search  -->
+<!--begin table-->
+<table class="table table-striped" style="width: 96%; margin-left: 2%; border:1px solid #dee2e6;">
+    <thead>
+        <tr>
+            <th scope="col">Mã khách hàng</th>
+            <th scope="col">Họ khách hàng</th>
+            <th scope="col">Tên khách hàng</th>
+            <th scope="col">Địa chỉ nhận hàng</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.KhachHang != null)
+        {
+            @foreach (var item in Model.KhachHang)//tạo vòng lặp để duyệt từng phần tử trong viewbag để show ra
+            {
+
+                <tr>
+                    <td>@item.IDKhachHang</td><!--show ra mã khách hàng-->
+                    <td>@item.HoKhachHang</td><!--show ra tên khách hàng-->
+                    <td>@item.TenKhachHang</td><!--show ra tên khách hàng-->
+                    <td>@item.DiaChiNhanHang</td><!--show ra tên khách hàng-->
+                    <td>@item.SoDienThoai</td><!--show ra tên khách hàng-->
+                    <td>
+                        <a class="btn btn-block btn-warning" asp-area="Admin" asp-controller="QuanLiKhachHang" asp-action="SuaKhachHang" asp-route-id="@item.IDKhachHang">Sửa</a>
+                        <!--đi vào area Admin, QuanLiKhachHangController thực hiện hàm SuaKhachHang, còn cái asp-route-id thì là nó định danh id cho cái nút sửa để khi click vào mình lấy được cái mã-->
+                    </td>
+                    <td>
+                        <button id="xoakhachhang" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-block btn-danger" data-id="@item.IDKhachHang">Xóa</button>
+                        <!--phần data-toggle và data-target để show cái model ở dưới của bootstrap, data-id là gán IDKhachHang cho thằng data-id -->
+                    </td>
+                </tr>
+
+            }
+        }
+
+    </tbody>
+
+</table>
+
+@{
+    @* setup nút quay về , trỏ vào hàm HasPreviousPage ở PaginatedList để kiểm tra *@
+    var prevDisabled = !Model.KhachHang.HasPreviousPage ? "disabled" : "";
+    @* setup nút tiến tới , trỏ vào hàm HasNextPage ở PaginatedList để kiểm tra *@
+    var nextDisabled = !Model.KhachHang.HasNextPage ? "disabled" : "";
+}
+@* Tạo nút quay về, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+<a class="btn btn-default @prevDisabled" asp-route-pageIndex="@(Model.KhachHang.PageIndex -1)" asp-route-searchString="@Model.KhachHang.searchString" asp-route-Type="@Model.Type">Previous</a>
+@* Tạo nút tiến lên, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+<a class="btn btn-default @nextDisabled" asp-route-pageIndex="@(Model.KhachHang.PageIndex +1)" asp-route-searchString="@Model.KhachHang.searchString" asp-route-Type="@Model.Type">Next</a>
+
+@* <!--Thẻ show lên xác nhận xóa hay không--> *@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class="modal-footer" id="footer-del">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Kết thúc thẻ xác nhận không có gì đặc biệt-->
+<!--end table-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><!--thêm cái link để xài jquery cái này anh An chỉ tui-->
+<script type="text/javascript">
+    //viết jquery, do xài cái model để xác nhận có muốn xóa hay không thì mình không lấy mã trực tiếp như cái sửa được nên phải viết thêm cái này
+    $("button#xoakhachhang").click(function ()//tạo sự kiên click cho cái button ở trên theo cú pháp của jquery: "tenthe#mã thẻ"
+    {
+        var id = $(this).data("id");//gán IDKhachHang đã được lưu vào data-id ở trên để gán vào biến id
+        var obj = '<a class="btn btn-success" href="https://localhost:5001/Admin/QuanLiKhachHang/XoaKhachHangData/' + id + '">Có</a>'
+            + '<button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>';//tạo biến obj để lưu lại cái html mình cần xuất ra, cái này tui không quá rõ
+        //nhưng mà cứ làm theo thôi, hok khó
+        $("div#footer-del").html(obj);//gọi cái thẻ div có mã là footer-del để chèn phần html zo
+    });
+</script>

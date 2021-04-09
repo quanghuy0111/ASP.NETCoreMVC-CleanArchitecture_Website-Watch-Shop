@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model mvcDongHo.Areas.Admin.ViewModels.KhachHangView;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<div class="col-md-10" style="margin-left: 8%">
+    <!-- general form elements -->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title"> Sửa khách hàng</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form asp-area="Admin" asp-controller="QuanLiKhachHang" asp-action="SuaKhachHangData">
+            @*đường dẫn đến admin/ chạy quanlikhachhangcontroler/ chạy hàm sửa khách hàng*@
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Mã khách hàng </label>
+                    <input asp-for="khachHangDTO.IDKhachHang" value="@ViewBag.SuaKhachHang.IDKhachHang" readonly="readonly" class="form-control" id="exampleInputEmail1" placeholder="Nhập mã khách hàng">
+
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Họ khách hàng</label>
+                    <input asp-for="khachHangDTO.HoKhachHang" value="@ViewBag.SuaKhachHang.HoKhachHang" class="form-control" id="exampleInputPassword1" placeholder="Nhập tên khách hàng">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Tên khách hàng</label>
+                    <input asp-for="khachHangDTO.TenKhachHang" value="@ViewBag.SuaKhachHang.TenKhachHang" class="form-control" id="exampleInputPassword1" placeholder="Nhập tên khách hàng">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Địa chỉ nhận hàng</label>
+                    <input asp-for="khachHangDTO.DiaChiNhanHang" value="@ViewBag.SuaKhachHang.DiaChiNhanHang" class="form-control" id="exampleInputPassword1" placeholder="Nhập địa chỉ nhận hàng">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Số điện thoại</label>
+                    <input asp-for="khachHangDTO.SoDienThoai" value="@ViewBag.SuaKhachHang.SoDienThoai" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <!--Combobox-->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.card -->
+
+</div>
+

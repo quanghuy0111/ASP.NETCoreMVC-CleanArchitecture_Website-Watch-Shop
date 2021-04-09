@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model mvcDongHo.ViewModels.CartItem;
+
+<script>
+    $(document).ready(function () {
+        $(".updateCart").click(function (event) {
+            event.preventDefault();
+            var quantity = $(".quantity_" + $(this).attr("data-id")).val();
+            console.log(quantity);
+            $.ajax({
+                type: "POST",
+                url:"@Url.Action("updateCart","Home")",
+                data: {
+                    id: $(this).attr("data-id"),
+                    quantity:quantity
+                },
+                success: function (result) {
+                    window.location.href = '@Url.Action("ListCart","Home")';
+                }
+            });
+        });
+    });
+</script>
+<!-- Start All Title Box -->
+<div style="background: url(/images/bg1.jpg)" class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Giỏ hàng</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Giỏ hàng</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<!-- Start Cart  -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-main table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Hình ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lương</th>
+                                <th>Tổng tiền</th>
+                                <th>Xóa bỏ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in ViewBag.carts)
+                                {
+                                    string txt_class = "quantity_" + item.sanPhamDTO.IDSanPham;
+                                    float total = item.sanPhamDTO.Gia * item.quantityItem;
+                                                        <tr>
+                                                            <td class="thumbnail-img">
+                                                                <a>
+                                                                    <img class="img-fluid" src="@item.sanPhamDTO.HinhAnh" />
+                                                                </a>
+                                                            </td>
+                                                            <td class="name-pr">
+                                                                <a asp-controller="Home" asp-action="Shopdetail" asp-route-id="@item.sanPhamDTO.IDSanPham">
+                                                                    @item.sanPhamDTO.TenSanPham
+                                                                </a>
+                                                            </td>
+                                                            <td class="price-pr">
+                                                                <p>@item.sanPhamDTO.Gia</p>
+                                                            </td>
+                                                            <td class="quantity-box">
+                                                            <input type="number" size="4" value="@item.quantityItem" min="0" step="1" class="@txt_class"/>
+                                                            </td>
+                                                            <td class="total-pr">
+                                                                <p>@total Đ</p>
+                                                            </td>
+                                                           
+                                                            @*<td><a href="" data-id="@item.sanPhamDTO.IDSanPham" class="updateCart">Update</a></td>*@
+                                                            <td class="remove-pr">
+                                                            <a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.sanPhamDTO.IDSanPham">
+                                                                <i class="fas fa-times"></i>
+                                                                </a></td>
+                                                        </tr>
+                                    }
+                                }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-lg-6 col-sm-6">
+                <div class="coupon-box">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control" placeholder="Nhập mã giảm giá của bạn tại đây" aria-label="Coupon code" type="text">
+                        <div class="input-group-append">
+                            <button class="btn btn-theme" type="button">Áp dụng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+                <div class="update-box">
+                    <input class="updateCart" value="Cập nhật giỏ hàng" type="submit">
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-lg-8 col-sm-12"></div>
+            <div class="col-lg-4 col-sm-12">
+                <div class="order-box">
+                    <h3>Chi tiết thanh toán</h3>
+                    @{
+                        float tongThanhToan = 0f;
+                        foreach (var item in ViewBag.carts)
+                        {
+                            float total = item.sanPhamDTO.Gia * item.quantityItem;
+                            tongThanhToan = tongThanhToan + total;
+                        }
+
+                        <div class="d-flex">
+                            <h4>Giá tổng các sản phẩm</h4>
+                            <div class="ml-auto font-weight-bold">@tongThanhToan Đ </div>
+                        </div>
+
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Mã giảm giá</h4>
+                            <div class="ml-auto font-weight-bold"> 0 Đ </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <h4>Phí giao hàng</h4>
+                            <div class="ml-auto font-weight-bold"> 0 Đ </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Tổng cộng</h5>
+                            <div class="ml-auto h5"> @tongThanhToan Đ </div>
+                        </div>
+                    }
+
+                    <hr>
+                </div>
+            </div>
+            <div class="col-12 d-flex shopping-box"><a href="@Url.Action("Checkout","TaiKhoan")" class="ml-auto btn hvr-hover">Thanh toán</a> </div>
+        </div>
+
+    </div>
+</div>
+<!-- End Cart -->

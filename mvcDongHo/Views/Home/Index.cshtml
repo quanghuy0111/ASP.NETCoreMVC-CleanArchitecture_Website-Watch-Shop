@@ -1,0 +1,145 @@
+﻿@using Domain.Entities;
+@using Domain.Interfaces;
+@model mvcDongHo.ViewModels.SanPhamView;
+@{ ViewBag.Title = "Trang chủ";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<!-- Start Slider -->
+<div id="slides-shop" class="cover-slides">
+    <ul class="slides-container">
+        <li class="text-center">
+            <img src="/images/b1.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Chào mừng đến với <br> WatchTime</strong></h1>
+                        <p class="m-b-40">Chào mừng bạn đến với shop đồng hồ chính hãng 100%</p>
+                        <p><a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img src="/images/b2.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Chào mừng đến với <br> WatchTime</strong></h1>
+                        <p class="m-b-40">Mang lại cho khách hàng trải nghiệm tốt nhất</p>
+                        <p><a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img src="/images/b3.jpg" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Chào mừng đến với <br> WatchTime</strong></h1>
+                        <p class="m-b-40">Nhân viên nhiệt tình, đổi trả 1:1 nếu hàng lỗi hoặc kém chất lượng</p>
+                        <p><a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="slides-navigation">
+        <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+    </div>
+</div>
+<!-- End Slider -->
+<!-- Start Categories  -->
+<div class="categories-shop">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="shop-cat-box">
+                    <img class="img-fluid" src="~/images/DATA/Adriatica_A3143.2111Q.jpg" alt="" />
+                    <a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="shop-cat-box">
+                    <img class="img-fluid" src="~/images/DATA/Baby-G_MSG-S200-7ADR.jpg" alt="" />
+                    <a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="shop-cat-box">
+                    <img class="img-fluid" src="~/images/DATA/Candino_C42921.jpg" alt="" />
+                    <a class="btn hvr-hover" href="@Url.Action("Shop","Home")">Mua sắm ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Categories -->
+
+<div class="box-add-products">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="offer-box-products">
+                    <img class="img-fluid" src="/images/sale1.jpg" alt="" />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="offer-box-products">
+                    <img class="img-fluid" src="/images/sale2.jpg" alt="" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start Products  -->
+<div class="products-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1> Các sản phẩm nổi bật</h1>
+
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="row special-list" style="position: relative; height: 321.641px;">
+
+            @if (ViewBag.List != null)
+            {
+                foreach (var p in ViewBag.List)
+                {
+        <div class="col-lg-3 col-md-6 special-grid best-seller" style="position: absolute; left: 0px; top: 0px;">
+            <div class="products-single fix">
+                <div class="box-img-hover">
+                    <div class="type-lb">
+                        <p class="sale">Mới</p>
+                    </div>
+                    <img src="@p.HinhAnh" alt="Image" class="img-fluid">
+                    <div class="mask-icon">
+                        <ul>
+                            <li><a data-toggle="tooltip" data-placement="right" title="" data-original-title="Xem" asp-controller="Home" asp-action="Shopdetail" asp-route-id="@p.IDSanPham"><i class="fas fa-eye"></i></a></li>
+
+                        </ul>
+                        <a asp-controller="Home" asp-action="addCart" asp-route-id="@p.IDSanPham" asp-route-urlReturn="Index" class="cart">Thêm vào giỏ hàng</a>
+                    </div>
+                </div>
+                <div class="why-text">
+                    <h4>>@p.TenSanPham</h4>
+                    <h5>@p.Gia</h5>
+                </div>
+            </div>
+        </div>                }
+                    }
+
+
+        </div>
+    </div>
+</div>
+<!-- End Products  -->
+<!-- Start Blog  -->
+<!-- End Blog  -->

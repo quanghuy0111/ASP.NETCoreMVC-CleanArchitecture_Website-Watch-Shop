@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- begin search  -->
+<br>
+<div>
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="simple-results.html">
+                    <div class="input-group">
+                        <input type="search" class="form-control form-control-lg" placeholder="Tìm kiếm">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- end search  -->
+<!--begin table-->
+<table class="table table-striped" style="width: 96%; margin-left: 2%; border:1px solid #dee2e6;">
+    <thead>
+        <tr>
+            <th scope="col">Mã nhà cung cấp</th>
+            <th scope="col">Tên nhà cung cấp</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>mdo</td>
+            <td>
+                <button type="submit" class="btn btn-block btn-warning">Sửa</button>
+            </td>
+            <td>
+                <button type="submit" class="btn btn-block btn-danger">Xóa</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--end table-->

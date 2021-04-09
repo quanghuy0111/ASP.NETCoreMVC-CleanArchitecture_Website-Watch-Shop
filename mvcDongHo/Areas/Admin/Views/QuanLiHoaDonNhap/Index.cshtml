@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model mvcDongHo.Areas.Admin.ViewModels.HoaDonNhapView;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<br>
+<div>
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form method="GET">
+                    <div class="input-group">
+                        <select asp-for="Type" >
+                            <option value="IDHoaDonNhap">Mã hóa đơn nhập</option>
+                            <option value="IDNhaCungCap">Mã nhà cung cấp</option>
+                        </select>
+                        <input type="search" class="form-control form-control-lg" placeholder="Tìm kiếm"  asp-for="searchString">
+                        <select asp-for="Tien">
+                            <option value="">All</option>
+                            <option value="1">dưới 1 triệu</option>
+                            <option value="2">từ 1 triệu đến 5 triệu</option>
+                            <option value="3">hơn 5 triệu</option>
+                        </select>
+                        
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<!-- end search  -->
+<!--begin table-->
+<table class="table table-striped" style="width: 96%; margin-left: 2%; border:1px solid #dee2e6;">
+    <thead>
+        <tr>
+            <th scope="col">Mã hóa đơn nhập</th>
+            <th scope="col">Mã nhà cung cấp</th>
+            <th scope="col">Thành tiền</th>
+            <th scope="col">Ngày nhập</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HoaDonNhap != null) 
+        {
+            @foreach (var item in Model.HoaDonNhap)//tạo vòng lặp để duyệt từng phần tử trong viewbag để show ra
+            {
+                <tr>
+                    <td>@item.IDHoaDonNhap</td><!--show ra mã hóa đơn nhập-->
+                    <td>@item.IDNhaCungCap</td><!--show ra mã nhà cung cấp-->
+                    <td>@item.ThanhTien</td><!--show ra thành tiền-->
+                    <td>@item.NgayNhap</td><!--show ra ngày nhập-->
+                    <td>
+                        <button id="xemchitietnhap" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-block btn-danger" data-id="@item.IDHoaDonNhap">Xem chi tiết</button>
+                    </td>
+                </tr>
+
+            }
+        }
+
+    </tbody>
+</table>
+<!--end table-->
+@{
+    @* setup nút quay về , trỏ vào hàm HasPreviousPage ở PaginatedList để kiểm tra *@
+    var prevDisabled = !Model.HoaDonNhap.HasPreviousPage ? "disabled" : "";
+    @* setup nút tiến tới , trỏ vào hàm HasNextPage ở PaginatedList để kiểm tra *@
+    var nextDisabled = !Model.HoaDonNhap.HasNextPage ? "disabled" : "";
+    
+}
+@* Tạo nút quay về, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+<a class="btn btn-default @prevDisabled" asp-route-pageIndex="@(Model.HoaDonNhap.PageIndex -1)" asp-route-searchString="@Model.HoaDonNhap.searchString">Previous</a>
+@* Tạo nút tiến lên, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+<a  class="btn btn-default @nextDisabled" asp-route-pageIndex="@(Model.HoaDonNhap.PageIndex +1)" asp-route-searchString="@Model.HoaDonNhap.searchString">Next</a>
+@* Tạo modal để hiện chi tiết hóa đơn *@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Thông báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <table class="table table-striped" style="width: 96%; margin-left: 2%; border:1px solid #dee2e6;">
+                <thead>
+                    <tr>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col">Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody id="content">
+                </tbody>
+                </table>
+            </div>
+            <div class="modal-footer" id="footer-del">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Kết thúc thẻ xác nhận không có gì đặc biệt-->

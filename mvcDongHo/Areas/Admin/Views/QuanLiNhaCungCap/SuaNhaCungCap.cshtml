@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model mvcDongHo.Areas.Admin.ViewModels.NhaCungCapView;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<div class="col-md-10" style="margin-left: 8%">
+    <!-- general form elements -->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title"> Sửa nhà cung cấp</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form asp-area="Admin" asp-controller="QuanLiNhaCungCap" asp-action="SuaNhaCungCapData">
+            @*đường dẫn đến admin/ chạy quanlinhacungcapcontroler/ chạy hàm sửa nhà cung cấp*@
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Mã nhà cung cấp</label>
+                    <input asp-for="nhaCungCapDTO.IDNhaCungCap" value="@ViewBag.SuaNhaCungCap.IDNhaCungCap" readonly="readonly" class="form-control" id="exampleInputEmail1" placeholder="Nhập mã nhà cung cấp">
+
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Tên nhà cung cấp</label>
+                    <input asp-for="nhaCungCapDTO.TenNhacungCap" value="@ViewBag.SuaNhaCungCap.TenNhacungCap" class="form-control" id="exampleInputPassword1" placeholder="Nhập tên nhà cung cấp">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Địa chỉ</label>
+                    <input asp-for="nhaCungCapDTO.DiaChi" value="@ViewBag.SuaNhaCungCap.DiaChi" class="form-control" id="exampleInputPassword1" placeholder="Nhập địa chỉ nhà cung cấp">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Số điện thoại</label>
+                    <input asp-for="nhaCungCapDTO.SoDienThoai" value="@ViewBag.SuaNhaCungCap.SoDienThoai" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại nhà cung cấp">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <!--Combobox-->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.card -->
+
+</div>
+

@@ -1,0 +1,125 @@
+﻿@model mvcDongHo.ViewModels.SanPhamView;
+@{ ViewBag.Title = "Sản phẩm";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<!-- Start All Title Box -->
+<div style="background: url(/images/bg1.jpg)" class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Sản phẩm</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Sản Phẩm</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<!-- Start Shop Page  -->
+<div class="shop-box-inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                <div class="right-product-box">
+                   
+
+                    <div class="product-categorie-box">
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade show active">
+                                <div class="row">
+                                    @if (Model.SanPham != null)
+                                    {
+                                        foreach (var p in Model.SanPham)
+                                        {
+                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                            <div class="products-single fix" id="content">
+                                                <div class="box-img-hover">
+                                                    <div class="type-lb">
+                                                        <p class="sale">Mới</p>
+                                                    </div>
+                                                    <img src="@p.HinhAnh" class="img-fluid" alt="Image">
+                                                    <div class="mask-icon">
+                                                        <ul>
+                                                            <li><a data-toggle="tooltip" data-placement="right" title="View" asp-controller="Home" asp-action="Shopdetail" asp-route-id="@p.IDSanPham"><i class="fas fa-eye"></i></a></li>
+                                                        </ul>
+                                                        <a asp-controller="Home" asp-action="addCart" asp-route-id="@p.IDSanPham" class="cart">Thêm vào giỏ hàng</a>
+                                                    </div>
+                                                </div>
+                                                <div class="why-text">
+                                                    <h4>@p.TenSanPham</h4>
+                                                    <h5>@p.Gia</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+                            @{ @* setup nút quay về , trỏ vào hàm HasPreviousPage ở PaginatedList để kiểm tra *@ var prevDisabled = !Model.SanPham.HasPreviousPage ? "disabled" : ""; @* setup nút tiến tới , trỏ vào hàm HasNextPage ở PaginatedList để kiểm tra *@ var nextDisabled = !Model.SanPham.HasNextPage ? "disabled" : ""; }
+                            @* Tạo nút quay về, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+                            <a style="position:absolute" class="btn btn-dark @prevDisabled"
+                               asp-route-pageIndex="@(Model.SanPham.PageIndex -1)" asp-route-textSearch="@Model.textSearch" asp-route-type="@Model.type" asp-route-price="@Model.price">Previous</a>
+                            @* Tạo nút tiến lên, nút này trỏ trực tiếp về Index và truyền parameter pageIndex *@
+                            <a style="position:absolute; right:0px" class="btn btn-dark @nextDisabled"
+                               asp-route-pageIndex="@(Model.SanPham.PageIndex +1)" asp-route-textSearch="@Model.textSearch" asp-route-type="@Model.type" asp-route-price="@Model.price">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                <form method="GET">
+                    <div class="product-categori">
+                        <div class="search-product">
+                            <input class="form-control" placeholder="Tìm kiếm..." type="text" id="search" asp-for="textSearch">
+                            <button type="submit"> <i class="fa fa-search"></i> </button>
+                        </div>
+                        <div class="filter-sidebar-left">
+                            <div class="title-left">
+                                <h3>Lọc</h3>
+                            </div>
+                            <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men">
+                                <div class="list-group-collapse sub-men">
+                                    <a class="list-group-item list-group-item-action" href="#" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">
+                                        Các hãng đồng hồ
+                                    </a>
+                                    <div class="collapse show" id="sub-men1" data-parent="#list-group-men">
+                                        <div class="list-group">
+                                            @if(Model.ThuongHieu != null)
+                                            {
+                                                foreach (var item in Model.ThuongHieu)
+                                                {
+                                                    <a class="list-group-item list-group-item-action active" asp-route-type="@item.IDThuongHieu">@item.TenThuongHieu</a>
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-collapse sub-men">
+                                    <a class="list-group-item list-group-item-action" aria-expanded="false" aria-controls="sub-men2" asp-route-price="false">Từ giá cao đến thấp</a>
+                                    <a class="list-group-item list-group-item-action" aria-expanded="false" aria-controls="sub-men2" asp-route-price="true">Từ giá thấp đến cao</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="filter-price-left">
+
+                            <div class="price-box-slider">
+                                <div id="slider-range"></div>
+                                <p>
+                                    <input type="text" id="amount" readonly style="border:0; color:#fbb714; font-weight:bold;">
+                                    <button class="btn hvr-hover" type="submit">Lọc</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Shop Page -->

@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model mvcDongHo.Areas.Admin.ViewModels.LoaiDayView;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<div class="col-md-10" style="margin-left: 8%">
+    <!-- general form elements -->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title"> Sửa loại dây</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form asp-area="Admin" asp-controller="QuanLiLoaiDay" asp-action="SuaLoaiDayData">
+            @*đường dẫn đến admin/ chạy quanliloaidaycontroler/ chạy hàm sửa loại dây*@
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Mã loại dây</label>
+                    <input asp-for="loaiDayDTO.IDDay" value="@ViewBag.SuaLoaiDay.IDDay" readonly="readonly" class="form-control" id="exampleInputEmail1" placeholder="Nhập mã loại dây">
+
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Tên loại dây</label>
+                    <input asp-for="loaiDayDTO.TenLoaiDay" value="@ViewBag.SuaLoaiDay.TenLoaiDay" class="form-control" id="exampleInputPassword1" placeholder="Nhập tên loại dây">@*asp-for định danh cho cái input, value là lấy dữ liệu để bên sửa có dữ liệu*@
+                    <span class="focus-input100 text-danger"></span>
+                </div>
+                <!--Combobox-->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.card -->
+
+</div>
+
